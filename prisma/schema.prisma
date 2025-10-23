@@ -1,0 +1,95 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = "postgres://postgres:49f7e6c4c0f309fc95eb97f55b76826d@54.164.163.98:5432/travelpally"
+}
+
+model User {
+  id                  String   @default(cuid()) @id
+  first_name          String
+  middle_name         String?
+  last_name           String
+  email               String   @unique
+  password            String?   
+  mobile_number        String    
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt 
+  trips               Trip[]
+  @@map(name: "users")
+}
+
+model Trip {
+  id                        Int        @id @default(autoincrement())
+  summary                   String
+  departure_date            DateTime
+  reference                 String
+  airline_booking_code      String
+  latitude                  String?  
+  longitude                 String?
+  from_iata_code                   String?
+  iata_code                   String?
+  flight_data                   String?
+  users                     User[]
+  passengers                Passenger[]
+  payments                  Payment[]
+  address                   String?
+  postalcode                String?
+  city                      String?
+  country                   String?
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt 
+  @@map(name: "trips")
+}
+
+model Payment {
+  id                Int        @id @default(autoincrement())
+  reference         String
+  status            String
+  amount            String
+  trip              Trip         @relation(fields: [trip_id], references: [id])
+  trip_id           Int
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt 
+  @@map(name: "payments")
+}
+
+model Passenger {
+  id                  String   @default(cuid()) @id
+  first_name          String
+  middle_name         String?
+  last_name           String
+  email               String   
+  cc                  String?   
+  mobile_number       String   
+  gender              String?   
+  date_of_birth       DateTime?   
+  nationality         String?   
+  passport_number     String?   
+  place_of_birth      String?   
+  issuing_nationality      String?   
+  issuing_authority      String?   
+  passport_issuance_date     DateTime?   
+  passport_expiry_date     DateTime?   
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt 
+  trip              Trip         @relation(fields: [trip_id], references: [id])
+  trip_id           Int
+  @@map(name: "passengers")
+}
+
+model Tour {
+  id                        Int        @id @default(autoincrement())
+  name                     String
+  country                  String
+  city                     String
+  widget                   String?
+  currency                 String?
+  summary                   String?
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt 
+  @@map(name: "tours")
+}
