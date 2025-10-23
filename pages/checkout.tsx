@@ -23,7 +23,7 @@ export const getServerSideProps = async ({ query }: any) => {
 
     if(pay && pay.status=="pending") {
 
-        const stripe = new Stripe("sk_test_51NuGbxLUItVcE9ZsaX5QYsRmYoq308OoA2Q7xpb71mQb0NX9l5qMa6NdELofgg39b9yocsSWXqoldZ5NH2ZpYRNL00J7EbkztC", {
+        const stripe = new Stripe("stripe secret key", {
             apiVersion: '2023-08-16',
         });
     
