@@ -5,6 +5,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
+        <link rel="manifest" href="/manifest.json" />
         <meta name="description" content="AI Travel Assistant, Cheap flight deals, Cheap hotel deals" />
         <link rel="icon" href="assets/img/travelpally-icon.png" />
       </Head>

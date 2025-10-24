@@ -1,4 +1,14 @@
-/** @type {import('next').NextConfig} */
+// next.config.js
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
+  register: true,
+  skipWaiting: true,
+  fallbacks: {
+    document: '/offline.html',
+  },
+});
+
 const nextConfig = {
   reactStrictMode: false,
   images: {
@@ -17,25 +27,14 @@ const nextConfig = {
     locales: ['en', 'fr', 'de'],
     defaultLocale: 'en',
   },
-  redirects: async () => [
-    {
-      source: '/:path*',
-      has: [{ type: 'host', value: 'travelpally.com' }],
-      destination: 'https://www.travelpally.com/:path*',
-      permanent: true
-    }
-  ],
-  webpack: (
-    config,
-    { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }
-  ) => {
-    // Important: return the modified config
+  webpack: (config) => {
     config.module.rules.push({
       test: /\.html$/i,
       loader: "html-loader",
     });
     return config
   },
-}
+};
 
-module.exports = nextConfig
+// IMPORTANT — wrap export with withPWA
+module.exports = withPWA(nextConfig);
